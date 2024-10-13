@@ -1,0 +1,5 @@
+tensorflow~=2.15.0
+opencv-python~=4.9.0.80
+numpy~=1.26.3
+flask~=3.0.3
+requests~=2.32.3
