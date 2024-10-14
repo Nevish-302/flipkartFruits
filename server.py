@@ -166,6 +166,14 @@ def test_endpoint():
         logger.error(f"Error in test_endpoint: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/', methods=['GET'])
+def home():
+
+    return jsonify({
+        "message": "Server running successfully",
+         })
+
+
 
 @app.route('/detect_fruit', methods=['POST'])
 def detect_fruit():
