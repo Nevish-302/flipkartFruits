@@ -22,6 +22,14 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Download file from Google Drive
+        run: |
+          FILE_ID="16tQdzd_hpU3veCnQSzSo5xFeTGZ7qcvs"  # file ID
+          CONFIRM=$(curl -sc /tmp/gcookie.txt "https://drive.google.com/uc?export=download&id=${FILE_ID}" | \
+                    sed -rn 's/.*confirm=([^&]+).*/\1/p')
+          curl -L -o fruit_model.h5 "https://drive.google.com/uc?export=download&confirm=${CONFIRM}&id=${FILE_ID}"
+
+
       - name: Create and start virtual environment
         run: |
           python -m venv venv
@@ -41,6 +49,10 @@ jobs:
           path: |
             release.zip
             !venv/
+      - name: Run Flask app
+        run: |
+          source venv/bin/activate
+          flask --app server.py run &  # Start Flask app in the background
 
   deploy:
     runs-on: ubuntu-latest
