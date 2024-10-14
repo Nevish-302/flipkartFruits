@@ -75,4 +75,18 @@ jobs:
         with:
           app-name: 'blabla'
           slot-name: 'Production'
+  run:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.__clientidsecretname__ }}
+          tenant-id: ${{ secrets.__tenantidsecretname__ }}
+          subscription-id: ${{ secrets.__subscriptionidsecretname__ }}
+
+      - name: Start Flask server
+        run: |
+          ssh -o StrictHostKeyChecking=no azureuser@your-app-url 'cd /home/site/wwwroot && source venv/bin/activate && flask --app server.py run'         
           
