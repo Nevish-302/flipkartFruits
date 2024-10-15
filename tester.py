@@ -105,7 +105,7 @@ def print_results(results):
 
 
 if __name__ == "__main__":
-    BASE_URL = "http://127.0.0.1:5000"
+    BASE_URL = "http://127.0.0.1:8000"
     baseurl = 'https://foodflipkart-gua6bwghabftbtad.canadacentral-01.azurewebsites.net'
     IMAGE_PATH = 'https://img.freepik.com/free-photo/picture-nice-red-apple-white-background_125540-4627.jpg'
     timeout = 10

@@ -1,0 +1,62 @@
+# Base image for Python environment
+FROM python:3.9.13-buster AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy application files
+COPY requirements.txt ./
+COPY classes.py ./
+COPY prompts.py ./
+COPY responses.py ./
+COPY server.py ./
+
+# Install dependencies
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Set up virtual environment
+RUN python -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Install ollama command line tool
+RUN curl -sSL https://ollama.com/install.sh | sh
+
+# Ollama Server Builder Stage
+FROM ollama/ollama AS OllamaServerBuilder
+
+# Copy application files and virtual environment from builder stage
+COPY --from=builder /app /app
+COPY --from=builder /venv /venv
+
+WORKDIR /app
+
+# Set environment variables for Ollama
+ENV OLLAMA_HOST=0.0.0.0
+ENV OLLAMA_ORIGINS=http://0.0.0.0:11434
+
+# Final Image Stage
+FROM python:3.9.13-buster
+
+WORKDIR /app
+
+# Copy application files and virtual environment from builder stage
+COPY --from=builder /app /app
+COPY --from=builder /venv /venv
+
+# Install Flask and other dependencies if needed
+RUN pip install flask
+
+# Expose ports
+EXPOSE 8110
+
+# Set environment variables for Flask
+ENV PATH="/venv/bin:$PATH"
+ENV PEXELS_API_KEY=cRklk4uS6KzX2x1KfGaZSD38cHnHvCaFHnJoyCAFLowH4kRVQ2VmkfcM
+
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Define entrypoint
+ENTRYPOINT ["entrypoint.sh"]
