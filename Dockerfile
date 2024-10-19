@@ -17,12 +17,11 @@ RUN apt-get update && \
 
 COPY ./requirements.txt ./
 COPY ./server.py ./
-COPY ./fruit_model.h5 ./
 COPY ./tester.py ./
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 8000
 
 ENTRYPOINT ["flask", "--app", "server.py", "run", "-h", "0.0.0.0", "-p", "8000"]

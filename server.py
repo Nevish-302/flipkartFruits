@@ -1,6 +1,7 @@
 import tensorflow as tf
 from flask import Flask, request, jsonify
 import cv2
+import requests
 import numpy as np
 from tensorflow.keras.applications.efficientnet import preprocess_input
 from tensorflow.keras.models import load_model
@@ -201,14 +202,27 @@ def detect_fruit():
         if model is None:
             return jsonify({"error": "Model not loaded"}), 500
 
-        if 'image' not in request.files:
-            return jsonify({"error": "No image file provided"}), 400
+        # if 'image' not in request.files:
+        #     return jsonify({"error": "No image file provided"}), 400
 
-        file = request.files['image']
-        if file.filename == '':
-            return jsonify({"error": "No selected file"}), 400
+        # file = request.files['image']
+        formdata = request.form  # This gets the form data from the incoming request
+        image_url = formdata.get('image_url')  # Extract image_url from formdata
+        img_response = requests.get(image_url, timeout=30)
+        if img_response.status_code != 200:
+            return {
+                "status": "failure",
+                "status_code": img_response.status_code,
+                "error": img_response.text
+            }
+        image_bytes = img_response.content
 
-        image_bytes = file.read()
+        # You don't need to check for `file.filename` because you're not dealing with a file object
+        # Just ensure that `image_bytes` has content
+        if not image_bytes:
+            return jsonify({"error": "No image data received."}), 400
+
+        # Process the image bytes
         result = process_image(image_bytes)
         return jsonify(result)
 

@@ -106,9 +106,9 @@ def print_results(results):
 
 if __name__ == "__main__":
     BASE_URL = "http://127.0.0.1:8000"
-    baseurl = 'https://foodflipkart-gua6bwghabftbtad.canadacentral-01.azurewebsites.net'
+    baseurl = 'http://flipkart-377841669.eu-north-1.elb.amazonaws.com/'
     IMAGE_PATH = 'https://img.freepik.com/free-photo/picture-nice-red-apple-white-background_125540-4627.jpg'
     timeout = 10
-    tester = ServerTester(BASE_URL, IMAGE_PATH, timeout)
+    tester = ServerTester(baseurl, IMAGE_PATH, timeout)
     results = tester.test_endpoints()
     print_results(results)
