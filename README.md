@@ -46,3 +46,9 @@ flask --app run app.py
 ## Model Architecture
 
 ![WhatsApp Image 2024-10-18 at 21 36 40](https://github.com/user-attachments/assets/52c92560-775b-4d6f-abbb-2ce01663a1ce)
+
+## Contributing
+Feel free to contribute by submitting issues or pull requests!
+
+## License
+This project is licensed under the MIT License.
