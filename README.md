@@ -1,4 +1,4 @@
-# Flipkart Grid 5.0 - Fruit Shelf Life Backend
+# Flipkart Grid 6.0 - Fruit Shelf Life Backend
 
 ## Overview
 
